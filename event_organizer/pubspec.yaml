@@ -1,0 +1,32 @@
+name: event_organizer
+description: "A new Flutter project."
+publish_to: "none"
+version: 1.0.0+1
+
+environment:
+  sdk: ">=3.2.3 <4.0.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+  async: ^2.11.0
+  cupertino_icons: ^1.0.2
+  flutter_launcher_icons: ^0.13.1
+  http: ^1.2.0
+  get: ^4.6.6
+  shared_preferences: ^2.2.3
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^2.0.0
+
+flutter:
+  uses-material-design: true
+  assets:
+    - assets/
+
+flutter_icons:
+  android: true
+  ios: true
+  image_path: assets/icon_event_organizer.jpg
