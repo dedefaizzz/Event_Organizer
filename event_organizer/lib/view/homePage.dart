@@ -43,6 +43,7 @@ class _HomePageState extends State<homePage> {
       ),
       body: _widgetOptions.elementAt(_selectedIndex),
       bottomNavigationBar: BottomNavigationBar(
+        backgroundColor: AppColors.backgroundColor,
         items: const <BottomNavigationBarItem>[
           BottomNavigationBarItem(
             icon: Icon(Icons.home),
@@ -58,7 +59,7 @@ class _HomePageState extends State<homePage> {
           ),
         ],
         currentIndex: _selectedIndex,
-        selectedItemColor: AppColors.backgroundColor,
+        selectedItemColor: AppColors.splashColor,
         onTap: _onItemTapped,
       ),
     );
