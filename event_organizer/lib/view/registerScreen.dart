@@ -13,6 +13,7 @@ class registerScreen extends StatefulWidget {
 
 class _RegisterScreenState extends State<registerScreen> {
   final registerControllers _regControllers = Get.put(registerControllers());
+  // final Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
 
   String? _emailError;
   String? _passwordError;
@@ -58,6 +59,9 @@ class _RegisterScreenState extends State<registerScreen> {
         actions: [
           TextButton(
             onPressed: () {
+              // final SharedPreferences? prefs = await _prefs;
+              // print(prefs?.get('token'));
+
               Navigator.of(context).pop();
               Navigator.pushReplacement(
                 context,

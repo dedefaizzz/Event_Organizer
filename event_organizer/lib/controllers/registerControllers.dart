@@ -26,21 +26,17 @@ class registerControllers extends GetxController {
           await http.post(url, body: jsonEncode(body), headers: headers);
 
       if (response.statusCode == 200) {
-        try {
-          final json = jsonDecode(response.body);
-          if (json['code'] == 0) {
-            var token = json['data']['Token'];
-            final SharedPreferences? prefs = await _prefs;
+        final json = jsonDecode(response.body);
+        if (json['code'] == 0) {
+          var token = json['data']['Token'];
+          print(token);
+          final SharedPreferences? prefs = await _prefs;
 
-            await prefs?.setString('token', token);
-            emailController.clear();
-            passwordController.clear();
-          } else {
-            throw jsonDecode(response.body)["Message"] ??
-                "Unknown Error Occured";
-          }
-        } catch (e) {
-          throw 'Invalid JSON response';
+          await prefs?.setString('token', token);
+          emailController.clear();
+          passwordController.clear();
+        } else {
+          throw jsonDecode(response.body)["Message"] ?? "Unknown Error Occured";
         }
       } else {
         throw jsonDecode(response.body)["Message"] ?? "Unknown Error Occured";
