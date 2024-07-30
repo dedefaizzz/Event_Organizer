@@ -28,10 +28,14 @@ class DatabaseHelper {
       organizer TEXT,
       imageUrl TEXT,
       nameEvent TEXT,
+      description TEXT,
       date TEXT,
+      time TEXT,
       location TEXT,
+      maps TEXT,
       price TEXT,
-      status TEXT
+      status TEXT,
+      invite INTEGER
       )
       ''');
   }

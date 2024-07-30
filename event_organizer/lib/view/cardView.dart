@@ -5,6 +5,7 @@ class cardView extends StatelessWidget {
   final String imageUrl;
   final String nameEvent;
   final String date;
+  final String time;
   final String location;
   final String price;
   final String status;
@@ -14,6 +15,7 @@ class cardView extends StatelessWidget {
     required this.imageUrl,
     required this.nameEvent,
     required this.date,
+    required this.time,
     required this.location,
     required this.price,
     required this.status,
@@ -52,6 +54,11 @@ class cardView extends StatelessWidget {
                 SizedBox(width: 8),
                 Text(
                   date,
+                  style: TextStyle(fontSize: 14, fontWeight: FontWeight.w200),
+                ),
+                SizedBox(width: 2),
+                Text(
+                  time,
                   style: TextStyle(fontSize: 14, fontWeight: FontWeight.w200),
                 ),
               ],

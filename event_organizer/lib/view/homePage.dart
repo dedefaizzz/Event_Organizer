@@ -39,7 +39,6 @@ class _HomePageState extends State<homePage> {
           style: TextStyle(
               color: AppColors.splashColor, fontWeight: FontWeight.bold),
         ),
-        centerTitle: true,
       ),
       body: _widgetOptions.elementAt(_selectedIndex),
       bottomNavigationBar: BottomNavigationBar(

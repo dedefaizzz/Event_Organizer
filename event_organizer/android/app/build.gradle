@@ -46,10 +46,15 @@ android {
         applicationId "com.example.event_organizer"
         // You can update the following values to match your application needs.
         // For more information, see: https://docs.flutter.dev/deployment/android#reviewing-the-gradle-build-configuration.
-        minSdkVersion flutter.minSdkVersion
-        targetSdkVersion flutter.targetSdkVersion
-        versionCode flutterVersionCode.toInteger()
-        versionName flutterVersionName
+        // minSdkVersion flutter.minSdkVersion
+        // minSdkVersion 20
+        minSdkVersion 21
+        // targetSdkVersion flutter.targetSdkVersion
+        targetSdkVersion 34
+        // versionCode flutterVersionCode.toInteger()
+        versionCode 1
+        // versionName flutterVersionName
+        versionName "1.0"
     }
 
     buildTypes {
