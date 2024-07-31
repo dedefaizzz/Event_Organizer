@@ -1,5 +1,5 @@
 class Event {
-  final int? id;
+  final int id;
   final String organizer;
   final String imageUrl;
   final String nameEvent;
@@ -13,7 +13,7 @@ class Event {
   final int? invite;
 
   Event({
-    this.id,
+    required this.id,
     required this.organizer,
     required this.imageUrl,
     required this.nameEvent,

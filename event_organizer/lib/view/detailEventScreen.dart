@@ -1,8 +1,11 @@
 import 'package:event_organizer/colors/colors.dart';
+import 'package:event_organizer/controllers/bookmarkControllers.dart';
 import 'package:event_organizer/model/eventModel.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:get/get.dart';
 
 class detailEventScreen extends StatefulWidget {
   final Event detailEvent;
@@ -14,6 +17,34 @@ class detailEventScreen extends StatefulWidget {
 
 class _DetailEventScreenState extends State<detailEventScreen> {
   bool isExpanded = false;
+  final bookmarkControllers _bookmarkControllers =
+      Get.put(bookmarkControllers());
+  bool _isBookmarked = false;
+
+  @override
+  void initState() {
+    super.initState();
+    _checkIfBookmarked();
+  }
+
+  Future<void> _checkIfBookmarked() async {
+    bool isBookmarked =
+        await _bookmarkControllers.isBookmarked(widget.detailEvent.id);
+    setState(() {
+      _isBookmarked = isBookmarked;
+    });
+  }
+
+  void _toggleBookmark() async {
+    if (_isBookmarked) {
+      _bookmarkControllers.removeBookmark(widget.detailEvent.id);
+      Fluttertoast.showToast(msg: 'Event removed from bookmarks');
+    } else {
+      _bookmarkControllers.addBookmark(widget.detailEvent);
+      Fluttertoast.showToast(msg: 'Event added to bookmarks');
+    }
+    _checkIfBookmarked();
+  }
 
   void _launchMaps(double latitude, double longitude) async {
     final url =
@@ -171,10 +202,10 @@ class _DetailEventScreenState extends State<detailEventScreen> {
               child: Row(
                 children: [
                   ElevatedButton(
-                    onPressed: () {
-                      // bookmark
-                    },
-                    child: Icon(Icons.bookmark_border),
+                    child: Icon(
+                      _isBookmarked ? Icons.bookmark : Icons.bookmark_border,
+                    ),
+                    onPressed: _toggleBookmark,
                     style: ElevatedButton.styleFrom(
                       primary: AppColors.secondColor,
                     ),

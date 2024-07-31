@@ -5,6 +5,7 @@ Future<void> addInitialEvents() async {
   final dbHelper = DatabaseHelper.instance;
 
   final event1 = Event(
+    id: 1,
     organizer: 'Wonderful Indonesia',
     imageUrl:
         'https://imagedelivery.net/17ER9eRTNK7DXk2ppa8ILA/header_dekstop_20240529015430.png/public',
@@ -22,6 +23,7 @@ Future<void> addInitialEvents() async {
   );
 
   final event2 = Event(
+    id: 2,
     organizer: 'Dinas Pariwisata Nusa Tenggara Barat',
     imageUrl:
         'https://www.indonesia.travel/content/dam/indtravelrevamp/en/events/microsite-event/makna-di-balik-festival-bau-nyale-di-mandalika-lombok/thumbnail.jpg',
@@ -38,6 +40,7 @@ Future<void> addInitialEvents() async {
   );
 
   final event3 = Event(
+    id: 3,
     organizer: 'Wonderful Indonesia',
     imageUrl:
         'https://v1.indonesia.travel/content/dam/indtravelrevamp/id-id/ide-liburan/6-tarian-tradisional-indonesia-yang-indah-penuh-makna-dan-bisa-disaksikan-dari-rumah/header.jpg',

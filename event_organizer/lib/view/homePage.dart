@@ -1,5 +1,6 @@
 import 'package:event_organizer/colors/colors.dart';
 import 'package:event_organizer/fragment/HomeFragment.dart';
+import 'package:event_organizer/fragment/BookmarkFragment.dart';
 import 'package:flutter/material.dart';
 
 class homePage extends StatefulWidget {
@@ -13,7 +14,7 @@ class _HomePageState extends State<homePage> {
   static List<Widget> _widgetOptions = <Widget>[
     HomeFragment(),
     Center(child: Text('Presence')),
-    Center(child: Text('Bookmark'))
+    BookmarkFragment(),
   ];
 
   void _onItemTapped(int index) {
