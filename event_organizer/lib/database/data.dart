@@ -57,7 +57,26 @@ Future<void> addInitialEvents() async {
     invite: 2,
   );
 
+  final event4 = Event(
+    id: 4,
+    organizer: 'Indonesia Travel',
+    imageUrl:
+        'https://www.indonesia.travel/content/2024/bob-downhill-2024-ajang-balap-sepeda-di-kawasan-borobudur-highland-dengan-pemandangan-alam-yang-memesona/header_dekstop_20240517105820.png',
+    nameEvent:
+        'BOB Downhill 2024: Ajang Balap Sepeda di Kawasan Borobudur Highland dengan Pemandangan Alam yang Memesona',
+    description:
+        'Apakah Sobat Pesona salah satu orang yang hobi travelling? Kira-kira apa jadinya ya, kalau kegiatan travelling digabungkan dengan olahraga? Wah, pasti bakal terasa lebih seru dan menyenangkan ya. Sepanjang tahun ini ternyata tren berwisata sambil berolahraga banyak diminati oleh wisatawan nusantara maupun mancanegara lho. Hal inilah yang melahirkan istilah sport tourism sehingga mampu membangkitkan potensi pariwisata dan ekonomi di Indonesia. Bagi kamu yang ingin menikmati liburan sambil menyaksikan perlombaan sepeda downhill, kamu wajib nih datang ke event tahunan BOB Downhill 2024.',
+    date: '19 Mei 2024',
+    time: '9.00 AM',
+    location: 'Borobudur, Magelang',
+    maps: '-7.608574, 110.203818',
+    price: 'Rp. 200.000',
+    status: 'Offline',
+    invite: 5,
+  );
+
   await dbHelper.create(event1);
   await dbHelper.create(event2);
   await dbHelper.create(event3);
+  await dbHelper.create(event4);
 }

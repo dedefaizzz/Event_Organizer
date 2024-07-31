@@ -56,7 +56,7 @@ class cardView extends StatelessWidget {
                   date,
                   style: TextStyle(fontSize: 14, fontWeight: FontWeight.w200),
                 ),
-                SizedBox(width: 2),
+                SizedBox(width: 8),
                 Text(
                   time,
                   style: TextStyle(fontSize: 14, fontWeight: FontWeight.w200),
@@ -65,7 +65,7 @@ class cardView extends StatelessWidget {
             ),
           ),
           Padding(
-            padding: const EdgeInsets.all(8.0),
+            padding: const EdgeInsets.all(4.0),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
@@ -76,7 +76,7 @@ class cardView extends StatelessWidget {
                 SizedBox(width: 8),
                 Text(
                   location,
-                  style: TextStyle(fontSize: 14, fontWeight: FontWeight.w100),
+                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.w100),
                 ),
               ],
             ),
@@ -92,7 +92,7 @@ class cardView extends StatelessWidget {
                 ),
                 Text(
                   status,
-                  style: TextStyle(fontSize: 14, fontWeight: FontWeight.w100),
+                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.w100),
                 ),
               ],
             ),
