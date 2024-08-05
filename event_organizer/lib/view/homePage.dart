@@ -1,7 +1,7 @@
 import 'package:event_organizer/colors/colors.dart';
 import 'package:event_organizer/fragment/HomeFragment.dart';
 import 'package:event_organizer/fragment/BookmarkFragment.dart';
-import 'package:event_organizer/fragment/PresenceFragment.dart';
+import 'package:event_organizer/fragment/OrderedFragment.dart';
 import 'package:flutter/material.dart';
 
 class homePage extends StatefulWidget {
@@ -14,7 +14,7 @@ class _HomePageState extends State<homePage> {
 
   static List<Widget> _widgetOptions = <Widget>[
     HomeFragment(),
-    PresenceFragment(),
+    OrderedFragment(),
     BookmarkFragment(),
   ];
 
@@ -51,8 +51,8 @@ class _HomePageState extends State<homePage> {
             label: 'Home',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.event_available),
-            label: 'Presence',
+            icon: Icon(Icons.shopping_basket_outlined),
+            label: 'Order',
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.bookmark),

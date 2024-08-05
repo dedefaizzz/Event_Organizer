@@ -5,12 +5,12 @@ import 'package:event_organizer/view/cardView.dart';
 import 'package:event_organizer/view/detailEventScreen.dart';
 import 'package:get/get.dart';
 
-class PresenceFragment extends StatefulWidget {
+class OrderedFragment extends StatefulWidget {
   @override
-  _PresenceFragmentState createState() => _PresenceFragmentState();
+  _OrderedFragmentState createState() => _OrderedFragmentState();
 }
 
-class _PresenceFragmentState extends State<PresenceFragment> {
+class _OrderedFragmentState extends State<OrderedFragment> {
   final orderEventControllers orderEventCtrl = Get.put(orderEventControllers());
 
   @override
@@ -33,7 +33,7 @@ class _PresenceFragmentState extends State<PresenceFragment> {
                 child: Align(
                   alignment: Alignment.centerLeft,
                   child: Text(
-                    'Presence Event',
+                    'Ordered Event',
                     style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
                   ),
                 ),
