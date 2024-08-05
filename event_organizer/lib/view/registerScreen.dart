@@ -59,9 +59,6 @@ class _RegisterScreenState extends State<registerScreen> {
         actions: [
           TextButton(
             onPressed: () {
-              // final SharedPreferences? prefs = await _prefs;
-              // print(prefs?.get('token'));
-
               Navigator.of(context).pop();
               Navigator.pushReplacement(
                 context,
@@ -81,18 +78,31 @@ class _RegisterScreenState extends State<registerScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppColors.backgroundColor,
+      backgroundColor: AppColors.secondColor,
       body: Padding(
         padding: EdgeInsets.all(16.0),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            ClipRRect(
-              borderRadius: BorderRadius.circular(15),
-              child: Image.asset(
-                'assets/icon_event_organizer.jpg',
-                width: 100,
-                height: 100,
+            Container(
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(15),
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.black.withOpacity(0.1),
+                    spreadRadius: 2,
+                    blurRadius: 5,
+                    offset: Offset(2, 4),
+                  ),
+                ],
+              ),
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(15),
+                child: Image.asset(
+                  'assets/icon_event_organizer.jpg',
+                  width: 100,
+                  height: 100,
+                ),
               ),
             ),
             SizedBox(height: 20),
@@ -118,11 +128,19 @@ class _RegisterScreenState extends State<registerScreen> {
                   decoration: BoxDecoration(
                     color: Colors.white,
                     borderRadius: BorderRadius.circular(12),
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.black.withOpacity(0.1),
+                        spreadRadius: 2,
+                        blurRadius: 5,
+                        offset: Offset(2, 4),
+                      ),
+                    ],
                   ),
                   child: TextField(
                     controller: _regControllers.emailController,
                     decoration: InputDecoration(
-                      border: InputBorder.none, // Remove the border
+                      border: InputBorder.none,
                       contentPadding:
                           EdgeInsets.symmetric(horizontal: 16, vertical: 12),
                       hintText: 'Enter your email',
@@ -141,12 +159,20 @@ class _RegisterScreenState extends State<registerScreen> {
                   decoration: BoxDecoration(
                     color: Colors.white,
                     borderRadius: BorderRadius.circular(12),
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.black.withOpacity(0.1),
+                        spreadRadius: 2,
+                        blurRadius: 5,
+                        offset: Offset(2, 4),
+                      ),
+                    ],
                   ),
                   child: TextField(
                     controller: _regControllers.passwordController,
                     obscureText: true,
                     decoration: InputDecoration(
-                      border: InputBorder.none, // Remove the border
+                      border: InputBorder.none,
                       contentPadding:
                           EdgeInsets.symmetric(horizontal: 16, vertical: 12),
                       hintText: 'Enter your password',
@@ -156,6 +182,15 @@ class _RegisterScreenState extends State<registerScreen> {
                 SizedBox(height: 32),
                 ElevatedButton(
                   onPressed: _signUp,
+                  style: ElevatedButton.styleFrom(
+                    primary: AppColors.secondColor,
+                    onPrimary: AppColors.splashColor,
+                    shadowColor: Colors.black.withOpacity(0.5),
+                    elevation: 5,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(20),
+                    ),
+                  ),
                   child: Text('Sign Up'),
                 ),
               ],

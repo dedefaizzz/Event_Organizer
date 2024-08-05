@@ -60,4 +60,34 @@ class Event {
       invite: map['invite'],
     );
   }
+
+  Event copyWith({
+    int? id,
+    String? organizer,
+    String? imageUrl,
+    String? nameEvent,
+    String? description,
+    String? date,
+    String? time,
+    String? location,
+    String? maps,
+    String? price,
+    String? status,
+    int? invite,
+  }) {
+    return Event(
+      id: id ?? this.id,
+      organizer: organizer ?? this.organizer,
+      imageUrl: imageUrl ?? this.imageUrl,
+      nameEvent: nameEvent ?? this.nameEvent,
+      description: description ?? this.description,
+      date: date ?? this.date,
+      time: time ?? this.time,
+      location: location ?? this.location,
+      maps: maps ?? this.maps,
+      price: price ?? this.price,
+      status: status ?? this.status,
+      invite: invite ?? this.invite,
+    );
+  }
 }

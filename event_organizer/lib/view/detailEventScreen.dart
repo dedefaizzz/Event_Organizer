@@ -1,6 +1,8 @@
 import 'package:event_organizer/colors/colors.dart';
 import 'package:event_organizer/controllers/bookmarkControllers.dart';
+import 'package:event_organizer/controllers/orderEventControllers.dart';
 import 'package:event_organizer/model/eventModel.dart';
+import 'package:event_organizer/view/registerEventScreen.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
@@ -19,12 +21,25 @@ class _DetailEventScreenState extends State<detailEventScreen> {
   bool isExpanded = false;
   final bookmarkControllers _bookmarkControllers =
       Get.put(bookmarkControllers());
+  final orderEventControllers orderEventCtrl = Get.put(orderEventControllers());
   bool _isBookmarked = false;
+  bool _isOrdered = false;
 
   @override
   void initState() {
     super.initState();
     _checkIfBookmarked();
+    _checkIfOrdered();
+  }
+
+  void _launchMaps(double latitude, double longitude) async {
+    final url =
+        'https://www.google.com/maps/search/?api=1&query=$latitude,$longitude';
+    if (await canLaunch(url)) {
+      await launch(url);
+    } else {
+      throw 'Could not launch $url';
+    }
   }
 
   Future<void> _checkIfBookmarked() async {
@@ -46,14 +61,22 @@ class _DetailEventScreenState extends State<detailEventScreen> {
     _checkIfBookmarked();
   }
 
-  void _launchMaps(double latitude, double longitude) async {
-    final url =
-        'https://www.google.com/maps/search/?api=1&query=$latitude,$longitude';
-    if (await canLaunch(url)) {
-      await launch(url);
-    } else {
-      throw 'Could not launch $url';
-    }
+  Future<void> _checkIfOrdered() async {
+    bool isOrdered = await orderEventCtrl.isEventOrdered(widget.detailEvent.id);
+    setState(() {
+      _isOrdered = isOrdered;
+    });
+  }
+
+  void _orderEvent() {
+    Get.to(() => registerEventScreen(event: widget.detailEvent))!.then((value) {
+      if (value == true) {
+        setState(() {
+          _isOrdered = true;
+        });
+        Fluttertoast.showToast(msg: 'Event ordered successfully');
+      }
+    });
   }
 
   @override
@@ -64,7 +87,7 @@ class _DetailEventScreenState extends State<detailEventScreen> {
 
     return Scaffold(
       body: Container(
-        color: AppColors.backgroundColor,
+        color: AppColors.secondColor,
         child: Stack(
           children: [
             SingleChildScrollView(
@@ -196,13 +219,21 @@ class _DetailEventScreenState extends State<detailEventScreen> {
               ),
             ),
             Positioned(
-              top: 24.0,
-              left: 16.0,
+              top: 32.0,
+              left: 6.0,
               child: ElevatedButton(
                 child: Icon(Icons.arrow_back),
                 onPressed: () {
                   Navigator.pop(context);
                 },
+                style: ElevatedButton.styleFrom(
+                  primary: AppColors.secondColor,
+                  onPrimary: AppColors.splashColor,
+                  shadowColor: Colors.black.withOpacity(0.5),
+                  elevation: 5,
+                  shape: CircleBorder(),
+                  padding: EdgeInsets.all(10),
+                ),
               ),
             ),
             Positioned(
@@ -218,17 +249,22 @@ class _DetailEventScreenState extends State<detailEventScreen> {
                     onPressed: _toggleBookmark,
                     style: ElevatedButton.styleFrom(
                       primary: AppColors.secondColor,
+                      onPrimary: AppColors.splashColor,
+                      shadowColor: Colors.black.withOpacity(0.5),
+                      elevation: 5,
                     ),
                   ),
                   SizedBox(width: 16),
                   Expanded(
                     child: ElevatedButton(
-                      onPressed: () {
-                        // order
-                      },
-                      child: Text('Order Event'),
+                      onPressed: _isOrdered ? null : _orderEvent,
+                      child: Text(_isOrdered ? 'Ordered' : 'Order Event'),
                       style: ElevatedButton.styleFrom(
-                        primary: AppColors.secondColor,
+                        primary:
+                            _isOrdered ? Colors.grey : AppColors.secondColor,
+                        onPrimary: AppColors.splashColor,
+                        shadowColor: Colors.black.withOpacity(0.5),
+                        elevation: 5,
                       ),
                     ),
                   ),
@@ -247,6 +283,8 @@ class _DetailEventScreenState extends State<detailEventScreen> {
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(12.0),
       ),
+      elevation: 3,
+      color: AppColors.secondColor,
       child: Padding(
         padding: const EdgeInsets.all(12.0),
         child: Column(

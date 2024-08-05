@@ -1,6 +1,7 @@
 import 'package:event_organizer/colors/colors.dart';
 import 'package:event_organizer/fragment/HomeFragment.dart';
 import 'package:event_organizer/fragment/BookmarkFragment.dart';
+import 'package:event_organizer/fragment/PresenceFragment.dart';
 import 'package:flutter/material.dart';
 
 class homePage extends StatefulWidget {
@@ -13,7 +14,7 @@ class _HomePageState extends State<homePage> {
 
   static List<Widget> _widgetOptions = <Widget>[
     HomeFragment(),
-    Center(child: Text('Presence')),
+    PresenceFragment(),
     BookmarkFragment(),
   ];
 
@@ -27,7 +28,7 @@ class _HomePageState extends State<homePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: AppColors.backgroundColor,
+        backgroundColor: AppColors.secondColor,
         leading: Padding(
           padding: const EdgeInsets.all(8.0),
           child: ClipOval(
@@ -43,7 +44,7 @@ class _HomePageState extends State<homePage> {
       ),
       body: _widgetOptions.elementAt(_selectedIndex),
       bottomNavigationBar: BottomNavigationBar(
-        backgroundColor: AppColors.backgroundColor,
+        backgroundColor: AppColors.secondColor,
         items: const <BottomNavigationBarItem>[
           BottomNavigationBarItem(
             icon: Icon(Icons.home),
@@ -59,7 +60,7 @@ class _HomePageState extends State<homePage> {
           ),
         ],
         currentIndex: _selectedIndex,
-        selectedItemColor: AppColors.splashColor,
+        selectedItemColor: AppColors.backgroundColor,
         onTap: _onItemTapped,
       ),
     );

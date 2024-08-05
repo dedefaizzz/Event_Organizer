@@ -30,7 +30,7 @@ class _BookmarkFragmentState extends State<BookmarkFragment> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      color: AppColors.backgroundColor,
+      color: AppColors.secondColor,
       child: ListView(
         children: [
           Padding(

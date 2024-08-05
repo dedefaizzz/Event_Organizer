@@ -1,3 +1,4 @@
+import 'package:event_organizer/colors/colors.dart';
 import 'package:flutter/material.dart';
 
 class cardView extends StatelessWidget {
@@ -24,7 +25,13 @@ class cardView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Card(
+      color: AppColors.secondColor,
       margin: EdgeInsets.all(16.0),
+      elevation: 10,
+      shadowColor: Colors.black.withOpacity(0.5),
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(15),
+      ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
