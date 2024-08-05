@@ -22,7 +22,7 @@ class orderEventControllers extends GetxController {
   }
 
   Future<bool> isEventOrdered(int eventId) async {
-    final orderedEvents = await DatabaseOrder.instance.readAllEvents();
+    // final orderedEvents = await DatabaseOrder.instance.readAllEvents();
     return orderedEvents.any((event) => event.id == eventId);
   }
 }

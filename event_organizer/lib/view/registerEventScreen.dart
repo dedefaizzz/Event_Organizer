@@ -149,6 +149,7 @@ class _RegisterEventScreenState extends State<registerEventScreen> {
                       child: Text('Order Now'),
                       style: ElevatedButton.styleFrom(
                         primary: AppColors.secondColor,
+                        onPrimary: AppColors.splashColor,
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(12),
                         ),
