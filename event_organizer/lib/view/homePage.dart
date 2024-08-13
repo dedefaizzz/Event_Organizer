@@ -2,6 +2,7 @@ import 'package:event_organizer/colors/colors.dart';
 import 'package:event_organizer/fragment/HomeFragment.dart';
 import 'package:event_organizer/fragment/BookmarkFragment.dart';
 import 'package:event_organizer/fragment/OrderedFragment.dart';
+import 'package:event_organizer/fragment/PresenceFragment.dart';
 import 'package:flutter/material.dart';
 
 class homePage extends StatefulWidget {
@@ -12,10 +13,11 @@ class homePage extends StatefulWidget {
 class _HomePageState extends State<homePage> {
   int _selectedIndex = 0;
 
-  static List<Widget> _widgetOptions = <Widget>[
+  List<Widget> _widgetOptions = <Widget>[
     HomeFragment(),
     OrderedFragment(),
     BookmarkFragment(),
+    PresenceFragment(),
   ];
 
   void _onItemTapped(int index) {
@@ -44,23 +46,28 @@ class _HomePageState extends State<homePage> {
       ),
       body: _widgetOptions.elementAt(_selectedIndex),
       bottomNavigationBar: BottomNavigationBar(
-        backgroundColor: AppColors.secondColor,
+        type: BottomNavigationBarType.shifting,
         items: const <BottomNavigationBarItem>[
           BottomNavigationBarItem(
             icon: Icon(Icons.home),
             label: 'Home',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.shopping_basket_outlined),
+            icon: Icon(Icons.shopping_cart),
             label: 'Order',
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.bookmark),
             label: 'Bookmark',
           ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.event_available),
+            label: 'Presence',
+          ),
         ],
         currentIndex: _selectedIndex,
-        selectedItemColor: AppColors.backgroundColor,
+        selectedItemColor: AppColors.splashColor,
+        unselectedItemColor: AppColors.splashColor.withOpacity(0.5),
         onTap: _onItemTapped,
       ),
     );

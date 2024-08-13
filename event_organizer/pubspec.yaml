@@ -21,6 +21,8 @@ dependencies:
   url_launcher: ^6.3.0
   fluttertoast: ^8.2.5
   get_storage: ^2.1.1
+  location: ^6.0.2
+  image_picker: ^1.0.8
 
 dev_dependencies:
   flutter_test:

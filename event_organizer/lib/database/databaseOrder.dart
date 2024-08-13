@@ -1,58 +1,53 @@
-import 'package:sqflite/sqflite.dart';
-import 'package:path/path.dart';
 import 'package:event_organizer/model/eventModel.dart';
+import 'package:path/path.dart';
+import 'package:sqflite/sqflite.dart';
 
 class DatabaseOrder {
-  static final DatabaseOrder instance = DatabaseOrder._init();
+  static final DatabaseOrder _instance = DatabaseOrder._internal();
+  factory DatabaseOrder() => _instance;
   static Database? _database;
 
-  DatabaseOrder._init();
+  DatabaseOrder._internal();
 
-  Future<Database> get database async {
+  Future<Database> _openDB() async {
     if (_database != null) return _database!;
-    _database = await _initDB('event_order.db');
+    _database = await openDatabase(
+      join(await getDatabasesPath(), 'event_order.db'),
+      version: 2,
+      onCreate: (db, version) {
+        return db.execute('''
+          CREATE TABLE $tableEvents(
+            ${EventFields.id} INTEGER PRIMARY KEY,
+            ${EventFields.organizer} TEXT,
+            ${EventFields.imageUrl} TEXT,
+            ${EventFields.nameEvent} TEXT,
+            ${EventFields.description} TEXT,
+            ${EventFields.date} TEXT,
+            ${EventFields.time} TEXT,
+            ${EventFields.location} TEXT,
+            ${EventFields.maps} TEXT,
+            ${EventFields.price} TEXT,
+            ${EventFields.status} TEXT,
+            ${EventFields.invite} INTEGER
+          )
+        ''');
+      },
+      onUpgrade: (db, oldVersion, newVersion) async {
+        if (oldVersion < 2) {
+          await db.execute('''
+            ALTER TABLE $tableEvents ADD COLUMN ${EventFields.maps} TEXT NOT NULL DEFAULT "";
+          ''');
+          await db.execute('''
+            ALTER TABLE $tableEvents ADD COLUMN ${EventFields.status} TEXT NOT NULL DEFAULT "";
+          ''');
+        }
+      },
+    );
     return _database!;
   }
 
-  Future<Database> _initDB(String filePath) async {
-    final dbPath = join(await getDatabasesPath(), filePath);
-    return await openDatabase(dbPath, version: 2, onCreate: _createDB);
-  }
-
-  Future _upgradeDB(Database db, int oldVersion, int newVersion) async {
-    if (oldVersion < 2) {
-      await db.execute(
-          'ALTER TABLE $tableEvents ADD COLUMN ${EventFields.organizer} TEXT NOT NULL DEFAULT ""');
-      await db.execute(
-          'ALTER TABLE $tableEvents ADD COLUMN ${EventFields.status} TEXT NOT NULL DEFAULT ""');
-    }
-  }
-
-  Future _createDB(Database db, int version) async {
-    const String idType = 'TEXT PRIMARY KEY';
-    const String textType = 'TEXT NOT NULL';
-    const String integerType = 'INTEGER NOT NULL';
-
-    await db.execute('''
-    CREATE TABLE $tableEvents (
-      ${EventFields.id} $idType,
-      ${EventFields.organizer} $textType,
-      ${EventFields.imageUrl} $textType,
-      ${EventFields.nameEvent} $textType,
-      ${EventFields.description} $textType,
-      ${EventFields.date} $textType,
-      ${EventFields.time} $textType,
-      ${EventFields.location} $textType,
-      ${EventFields.maps} $textType,
-      ${EventFields.price} $textType,
-      ${EventFields.status} $textType,
-      ${EventFields.invite} $integerType
-    )
-    ''');
-  }
-
-  Future<void> createEvent(Event event) async {
-    final db = await instance.database;
+  Future<void> insertEvent(Event event) async {
+    final db = await _openDB();
     await db.insert(
       tableEvents,
       event.toMap(),
@@ -60,36 +55,28 @@ class DatabaseOrder {
     );
   }
 
-  Future<List<Event>> readAllEvents() async {
-    final db = await instance.database;
-    final orderBy = '${EventFields.date} ASC';
-    final result = await db.query(tableEvents, orderBy: orderBy);
-    return result.map((json) => Event.fromMap(json)).toList();
-  }
-
-  Future<bool> isEventOrdered(String id) async {
-    final db = await instance.database;
-    final result = await db.query(
+  Future<List<Event>> getOrderedEvents() async {
+    final db = await _openDB();
+    final List<Map<String, dynamic>> maps = await db.query(
       tableEvents,
-      columns: [EventFields.id],
-      where: '${EventFields.id} = ?',
-      whereArgs: [id],
+      orderBy: '${EventFields.date} ASC',
     );
-    return result.isNotEmpty;
-  }
-
-  Future<void> deleteEvent(String id) async {
-    final db = await instance.database;
-    await db.delete(
-      tableEvents,
-      where: '${EventFields.id} = ?',
-      whereArgs: [id],
+    return List.generate(
+      maps.length,
+      (i) {
+        return Event.fromMap(maps[i]);
+      },
     );
   }
 
-  Future close() async {
-    final db = await instance.database;
-    db.close();
+  Future<bool> isEventOrdered(int eventId) async {
+    final db = await _openDB();
+    final List<Map<String, dynamic>> maps = await db.query(
+      tableEvents,
+      where: '${EventFields.id} = ?',
+      whereArgs: [eventId],
+    );
+    return maps.isNotEmpty;
   }
 }
 
@@ -99,28 +86,28 @@ class EventFields {
   static final List<String> values = [
     id,
     organizer,
+    imageUrl,
     nameEvent,
     description,
     date,
     time,
-    price,
     location,
-    imageUrl,
     maps,
+    price,
     status,
     invite
   ];
 
   static const String id = 'id';
   static const String organizer = 'organizer';
+  static const String imageUrl = 'imageUrl';
   static const String nameEvent = 'nameEvent';
   static const String description = 'description';
   static const String date = 'date';
   static const String time = 'time';
-  static const String price = 'price';
   static const String location = 'location';
-  static const String imageUrl = 'imageUrl';
   static const String maps = 'maps';
-  static const String invite = 'invite';
+  static const String price = 'price';
   static const String status = 'status';
+  static const String invite = 'invite';
 }

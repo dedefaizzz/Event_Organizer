@@ -12,12 +12,14 @@ class orderEventControllers extends GetxController {
   }
 
   Future<void> fetchOrderedEvents() async {
-    final events = await DatabaseOrder.instance.readAllEvents();
+    final db = DatabaseOrder();
+    final events = await db.getOrderedEvents();
     orderedEvents.assignAll(events);
   }
 
   Future<void> addOrderEvent(Event event) async {
-    await DatabaseOrder.instance.createEvent(event);
+    final db = DatabaseOrder();
+    await db.insertEvent(event);
     orderedEvents.add(event);
   }
 

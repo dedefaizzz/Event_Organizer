@@ -1,7 +1,9 @@
 import 'package:event_organizer/colors/colors.dart';
 import 'package:event_organizer/controllers/bookmarkControllers.dart';
 import 'package:event_organizer/controllers/orderEventControllers.dart';
+import 'package:event_organizer/controllers/presenceControllers.dart';
 import 'package:event_organizer/model/eventModel.dart';
+import 'package:event_organizer/view/checkinPresenceScreen.dart';
 import 'package:event_organizer/view/registerEventScreen.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -18,28 +20,21 @@ class detailEventScreen extends StatefulWidget {
 }
 
 class _DetailEventScreenState extends State<detailEventScreen> {
-  bool isExpanded = false;
   final bookmarkControllers _bookmarkControllers =
       Get.put(bookmarkControllers());
   final orderEventControllers orderEventCtrl = Get.put(orderEventControllers());
+  final presenceControllers presenceCtrl = Get.put(presenceControllers());
+  bool isExpanded = false;
   bool _isBookmarked = false;
   bool _isOrdered = false;
+  bool _isCheckedIn = false;
 
   @override
   void initState() {
     super.initState();
     _checkIfBookmarked();
     _checkIfOrdered();
-  }
-
-  void _launchMaps(double latitude, double longitude) async {
-    final url =
-        'https://www.google.com/maps/search/?api=1&query=$latitude,$longitude';
-    if (await canLaunch(url)) {
-      await launch(url);
-    } else {
-      throw 'Could not launch $url';
-    }
+    _checkIfCheckedIn();
   }
 
   Future<void> _checkIfBookmarked() async {
@@ -77,6 +72,36 @@ class _DetailEventScreenState extends State<detailEventScreen> {
         Fluttertoast.showToast(msg: 'Event ordered successfully');
       }
     });
+  }
+
+  Future<void> _checkIfCheckedIn() async {
+    bool isCheckedIn = await presenceCtrl.isEventChecked(widget.detailEvent.id);
+    setState(() {
+      _isCheckedIn = isCheckedIn;
+    });
+  }
+
+  void _checkIn() {
+    presenceCtrl.resetPresence();
+    Get.to(() => checkinPresenceScreen(event: widget.detailEvent))!
+        .then((value) {
+      if (value == true) {
+        setState(() {
+          _isCheckedIn = true;
+        });
+        Fluttertoast.showToast(msg: 'Checked in successfully');
+      }
+    });
+  }
+
+  void _launchMaps(double latitude, double longitude) async {
+    final url =
+        'https://www.google.com/maps/search/?api=1&query=$latitude,$longitude';
+    if (await canLaunch(url)) {
+      await launch(url);
+    } else {
+      throw 'Could not launch $url';
+    }
   }
 
   @override
@@ -214,7 +239,21 @@ class _DetailEventScreenState extends State<detailEventScreen> {
                       ),
                     ),
                   ),
-                  SizedBox(height: 65),
+                  if (_isOrdered)
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                      child: ElevatedButton(
+                        onPressed: _isCheckedIn ? null : _checkIn,
+                        child: Text(_isCheckedIn ? 'Checked In' : 'Check In'),
+                        style: ElevatedButton.styleFrom(
+                          onPrimary: AppColors.secondColor,
+                          minimumSize: Size(double.infinity, 45),
+                          onSurface: Colors.green,
+                          primary: _isCheckedIn ? Colors.green : Colors.red,
+                        ),
+                      ),
+                    ),
+                  SizedBox(height: 75),
                 ],
               ),
             ),
