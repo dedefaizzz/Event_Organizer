@@ -16,7 +16,8 @@ class databasePresence {
       onCreate: (db, version) {
         return db.execute('''
           CREATE TABLE presence (
-            id INTEGER PRIMARY KEY,
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            eventId INTEGER,
             imagePath TEXT,
             latitude REAL,
             longitude REAL,
@@ -24,7 +25,12 @@ class databasePresence {
           )
           ''');
       },
-      version: 1,
+      onUpgrade: (db, oldVersion, newVersion) {
+        if (oldVersion < 2) {
+          db.execute('''ALTER TABLE presence ADD COLUMN eventId INTEGER''');
+        }
+      },
+      version: 2,
     );
     return _database!;
   }
@@ -34,13 +40,15 @@ class databasePresence {
     await db.insert(
       'presence',
       presence.toMap(),
-      conflictAlgorithm: ConflictAlgorithm.replace,
+      conflictAlgorithm: ConflictAlgorithm.ignore,
     );
   }
 
-  Future<List<Presence>> getPresences() async {
+  Future<List<Presence>> getPresences(int eventId) async {
     final db = await _openDB();
-    final List<Map<String, dynamic>> maps = await db.query('presence');
+    final List<Map<String, dynamic>> maps =
+        await db.query('presence', where: 'eventId = ?', whereArgs: [eventId]);
+
     return List.generate(
       maps.length,
       (i) {

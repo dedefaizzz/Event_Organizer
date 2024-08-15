@@ -2,6 +2,7 @@ import 'dart:io';
 import 'package:event_organizer/colors/colors.dart';
 import 'package:event_organizer/controllers/presenceControllers.dart';
 import 'package:event_organizer/model/eventModel.dart';
+import 'package:event_organizer/model/presenceModel.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -15,6 +16,19 @@ class checkinPresenceScreen extends StatefulWidget {
 
 class _CheckinPresenceScreenState extends State<checkinPresenceScreen> {
   final presenceControllers presenceCtrl = Get.put(presenceControllers());
+
+  @override
+  void initState() {
+    super.initState();
+    presenceCtrl.presence.value = Presence(
+      id: 0,
+      eventId: widget.event.id,
+      imagePath: '',
+      latitude: 0.0,
+      longitude: 0.0,
+      timestamp: DateTime.now(),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -42,7 +56,7 @@ class _CheckinPresenceScreenState extends State<checkinPresenceScreen> {
               SizedBox(height: 16),
               ElevatedButton(
                 onPressed: () async {
-                  await presenceCtrl.takePicture();
+                  await presenceCtrl.takePicture(widget.event.id);
                 },
                 child: Text('Ambil Gambar'),
                 style: ElevatedButton.styleFrom(

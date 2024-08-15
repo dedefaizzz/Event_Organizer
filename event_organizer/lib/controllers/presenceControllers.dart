@@ -9,8 +9,10 @@ import 'package:location/location.dart';
 class presenceControllers extends GetxController {
   var isLoading = false.obs;
   var events = <Event>[].obs;
+  var presences = <Presence>[].obs;
   var presence = Presence(
     id: 0,
+    eventId: 0,
     imagePath: '',
     latitude: 0.0,
     longitude: 0.0,
@@ -26,7 +28,7 @@ class presenceControllers extends GetxController {
     super.onInit();
   }
 
-  Future<void> takePicture() async {
+  Future<void> takePicture(int eventId) async {
     try {
       final pickedFile =
           await _imagePicker.pickImage(source: ImageSource.camera);
@@ -38,6 +40,7 @@ class presenceControllers extends GetxController {
           val.latitude = locationData.latitude!;
           val.longitude = locationData.longitude!;
           val.timestamp = DateTime.now();
+          val.eventId = eventId;
         });
         await savePresence(presence.value);
       }
@@ -46,13 +49,15 @@ class presenceControllers extends GetxController {
     }
   }
 
-  void resetPresence() {
-    presence.value.imagePath = '';
-  }
-
   Future<void> savePresence(Presence presenceData) async {
     final db = databasePresence();
     return await db.insertPresence(presenceData);
+  }
+
+  Future<void> fetchPresence(int eventId) async {
+    final db = databasePresence();
+    final preList = await db.getPresences(eventId);
+    presences.assignAll(preList);
   }
 
   Future<void> fetchEvents() async {

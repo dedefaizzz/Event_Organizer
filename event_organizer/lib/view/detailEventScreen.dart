@@ -82,7 +82,6 @@ class _DetailEventScreenState extends State<detailEventScreen> {
   }
 
   void _checkIn() {
-    presenceCtrl.resetPresence();
     Get.to(() => checkinPresenceScreen(event: widget.detailEvent))!
         .then((value) {
       if (value == true) {
