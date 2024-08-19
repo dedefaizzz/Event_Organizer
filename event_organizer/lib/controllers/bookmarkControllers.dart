@@ -5,7 +5,6 @@ import 'package:event_organizer/model/eventModel.dart';
 class bookmarkControllers extends GetxController {
   final DatabaseBookmark _databaseBookmark = DatabaseBookmark.instance;
 
-  // Use a set or map to manage bookmarked event IDs
   final RxSet<int> _bookmarkedEventIds = <int>{}.obs;
 
   @override

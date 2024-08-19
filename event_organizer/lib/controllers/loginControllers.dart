@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:event_organizer/utils/apiEndpoint.dart';
+import 'package:event_organizer/view/homePage.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
@@ -32,6 +33,7 @@ class loginController extends GetxController {
 
           emailController.clear();
           passwordController.clear();
+          Get.offAll(() => homePage());
         } else if (json['code'] == 1) {
           throw jsonDecode(response.body)['message'];
         }
@@ -56,10 +58,5 @@ class loginController extends GetxController {
   Future<bool> isLoggedIn() async {
     final SharedPreferences? prefs = await _prefs;
     return prefs?.getString('token') != null;
-  }
-
-  Future<void> logout() async {
-    final SharedPreferences? prefs = await _prefs;
-    await prefs?.remove('token');
   }
 }

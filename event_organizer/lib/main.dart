@@ -16,11 +16,11 @@ class MyApp extends StatelessWidget {
     return GetMaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Ivent',
-      home: FutureBuilder(
+      home: FutureBuilder<bool>(
         future: _checkLoginStatus(),
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.done) {
-            if (snapshot.hasData && snapshot.data as bool) {
+            if (snapshot.hasData && snapshot.data == true) {
               return homePage();
             } else {
               return splashScreen();

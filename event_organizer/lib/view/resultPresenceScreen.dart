@@ -20,8 +20,7 @@ class _ResultPresenceScreenState extends State<resultPresenceScreen> {
         title: Text('Check-In Results'),
       ),
       body: FutureBuilder<List<Presence>>(
-        future: databasePresence()
-            .getPresences(widget.eventId), // Fetching presence data
+        future: databasePresence().getPresences(widget.eventId),
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return Center(child: CircularProgressIndicator());
@@ -44,8 +43,8 @@ class _ResultPresenceScreenState extends State<resultPresenceScreen> {
                       children: [
                         Image.file(
                           File(presence.imagePath),
-                          height: 300,
-                          width: double.infinity,
+                          height: 600,
+                          width: 600,
                           fit: BoxFit.cover,
                         ),
                         SizedBox(height: 10),
