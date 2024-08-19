@@ -52,4 +52,14 @@ class loginController extends GetxController {
       );
     }
   }
+
+  Future<bool> isLoggedIn() async {
+    final SharedPreferences? prefs = await _prefs;
+    return prefs?.getString('token') != null;
+  }
+
+  Future<void> logout() async {
+    final SharedPreferences? prefs = await _prefs;
+    await prefs?.remove('token');
+  }
 }

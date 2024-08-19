@@ -56,7 +56,10 @@ class databaseEvent {
 
   Future<List<Event>> getEvents() async {
     final db = await _openDB();
-    final List<Map<String, dynamic>> maps = await db.query('database_event');
+    final List<Map<String, dynamic>> maps = await db.query(
+      'database_event',
+      orderBy: 'timestamp DESC',
+    );
     return List.generate(
       maps.length,
       (i) {

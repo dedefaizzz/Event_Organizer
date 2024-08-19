@@ -15,7 +15,6 @@ class bookmarkControllers extends GetxController {
   }
 
   void _loadBookmarkedEvents() async {
-    // Load all bookmarked events from database
     final events = await _databaseBookmark.readAllBookmarkedEvents();
     _bookmarkedEventIds.value = events.map((event) => event.id).toSet();
   }

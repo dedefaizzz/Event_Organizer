@@ -51,13 +51,20 @@ class presenceControllers extends GetxController {
 
   Future<void> savePresence(Presence presenceData) async {
     final db = databasePresence();
-    return await db.insertPresence(presenceData);
+    await db.insertPresence(presenceData);
+    fetchPresence(presenceData.eventId);
   }
 
   Future<void> fetchPresence(int eventId) async {
     final db = databasePresence();
     final preList = await db.getPresences(eventId);
     presences.assignAll(preList);
+  }
+
+  Future<void> fetchAllPresence(int eventId) async {
+    final db = databasePresence();
+    final allPresence = await db.getAllPresence(eventId);
+    presences.assignAll(allPresence);
   }
 
   Future<void> fetchEvents() async {

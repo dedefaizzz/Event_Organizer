@@ -42,12 +42,14 @@ class _PresenceFragmentState extends State<PresenceFragment> {
                 return Column(
                   children: [
                     GestureDetector(
-                      onTap: () {
+                      onTap: () async {
+                        await presenceCtrl.fetchAllPresence(event.id);
+
                         Navigator.push(
                           context,
                           MaterialPageRoute(
                             builder: (context) => resultPresenceScreen(
-                              presence: presenceCtrl.presence.value,
+                              eventId: event.id,
                             ),
                           ),
                         );

@@ -20,6 +20,19 @@ class loginScreen extends StatefulWidget {
 class _LoginScreenState extends State<loginScreen> {
   final loginController _logControllers = Get.put(loginController());
 
+  @override
+  void initState() {
+    super.initState();
+    _checkLoginStatus();
+  }
+
+  void _checkLoginStatus() async {
+    bool isLoggedIn = await _logControllers.isLoggedIn();
+    if (isLoggedIn) {
+      Get.off(() => homePage());
+    }
+  }
+
   void _signIn() {
     final email = _logControllers.emailController.text;
     final password = _logControllers.passwordController.text;

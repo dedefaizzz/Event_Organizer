@@ -21,7 +21,8 @@ class databasePresence {
             imagePath TEXT,
             latitude REAL,
             longitude REAL,
-            timestamp TEXT
+            timestamp TEXT,
+            FOREIGN KEY (eventId) REFERENCES database_event(id)
           )
           ''');
       },
@@ -40,14 +41,36 @@ class databasePresence {
     await db.insert(
       'presence',
       presence.toMap(),
-      conflictAlgorithm: ConflictAlgorithm.ignore,
+      conflictAlgorithm: ConflictAlgorithm.replace,
     );
   }
 
   Future<List<Presence>> getPresences(int eventId) async {
     final db = await _openDB();
-    final List<Map<String, dynamic>> maps =
-        await db.query('presence', where: 'eventId = ?', whereArgs: [eventId]);
+    final List<Map<String, dynamic>> maps = await db.query(
+      'presence',
+      where: 'eventId = ?',
+      whereArgs: [eventId],
+      orderBy: 'timestamp DESC',
+    );
+
+    return List.generate(
+      maps.length,
+      (i) {
+        return Presence.fromMap(maps[i]);
+      },
+    );
+  }
+
+  Future<List<Presence>> getAllPresence(int eventId) async {
+    final db = await _openDB();
+    final List<Map<String, dynamic>> maps = await db.query(
+      'presence',
+      where: 'eventId = ?',
+      whereArgs: [eventId],
+      orderBy: 'timestamp DESC',
+      limit: 100,
+    );
 
     return List.generate(
       maps.length,

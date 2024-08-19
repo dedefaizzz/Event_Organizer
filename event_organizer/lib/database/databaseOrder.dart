@@ -59,7 +59,7 @@ class DatabaseOrder {
     final db = await _openDB();
     final List<Map<String, dynamic>> maps = await db.query(
       tableEvents,
-      orderBy: '${EventFields.date} ASC',
+      orderBy: '${EventFields.date} DESC',
     );
     return List.generate(
       maps.length,
