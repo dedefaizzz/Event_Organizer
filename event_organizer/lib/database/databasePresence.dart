@@ -26,19 +26,15 @@ class databasePresence {
           )
           ''');
       },
-      onUpgrade: (db, oldVersion, newVersion) {
-        if (oldVersion < 2) {
-          db.execute('''ALTER TABLE presence ADD COLUMN eventId INTEGER''');
-        }
-      },
-      version: 2,
+      version: 1,
     );
     return _database!;
   }
 
-  Future<void> insertPresence(Presence presence) async {
+  Future<int> insertPresence(Presence presence) async {
     final db = await _openDB();
-    await db.insert(
+
+    return await db.insert(
       'presence',
       presence.toMap(),
       conflictAlgorithm: ConflictAlgorithm.replace,
@@ -69,7 +65,7 @@ class databasePresence {
       where: 'eventId = ?',
       whereArgs: [eventId],
       orderBy: 'timestamp DESC',
-      limit: 100,
+      // limit: 100,
     );
 
     return List.generate(

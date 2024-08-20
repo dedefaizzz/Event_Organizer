@@ -16,7 +16,7 @@ class databaseEvent {
             onCreate: (db, version) {
               return db.execute('''
             CREATE TABLE database_event(
-            id INTEGER PRIMARY KEY,
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
             organizer TEXT,
             imageUrl TEXT,
             nameEvent TEXT,

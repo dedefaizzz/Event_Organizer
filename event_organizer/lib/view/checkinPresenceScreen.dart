@@ -43,15 +43,18 @@ class _CheckinPresenceScreenState extends State<checkinPresenceScreen> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Container(
-                width: 300,
-                height: 300,
+                width: 400,
+                height: 400,
                 decoration: BoxDecoration(
                   color: AppColors.secondColor,
                   borderRadius: BorderRadius.circular(16),
                 ),
                 child: presenceCtrl.presence.value.imagePath.isEmpty
                     ? Icon(Icons.image, size: 200)
-                    : Image.file(File(presenceCtrl.presence.value.imagePath)),
+                    : Image.file(
+                        File(presenceCtrl.presence.value.imagePath),
+                        fit: BoxFit.contain,
+                      ),
               ),
               SizedBox(height: 16),
               ElevatedButton(

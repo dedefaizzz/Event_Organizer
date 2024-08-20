@@ -24,21 +24,25 @@ class loginController extends GetxController {
       http.Response response =
           await http.post(url, body: jsonEncode(body), headers: headers);
 
-      if (response.statusCode == 200) {
+      if (response.headers['content-type']!.contains('application/json')) {
         final json = jsonDecode(response.body);
-        if (json['code'] == 0) {
-          var token = json['data']['Token'];
-          final SharedPreferences? prefs = await _prefs;
-          await prefs?.setString('token', token);
+        if (response.statusCode == 200) {
+          if (json['code'] == 0) {
+            var token = json['data']['Token'];
+            final SharedPreferences? prefs = await _prefs;
+            await prefs?.setString('token', token);
 
-          emailController.clear();
-          passwordController.clear();
-          Get.offAll(() => homePage());
-        } else if (json['code'] == 1) {
-          throw jsonDecode(response.body)['message'];
+            emailController.clear();
+            passwordController.clear();
+            Get.offAll(() => homePage());
+          } else if (json['code'] == 1) {
+            throw json['message'];
+          }
+        } else {
+          throw json['message'] ?? "Unknown Error Occurred";
         }
       } else {
-        throw jsonDecode(response.body)['message'] ?? "Unknown Error Occured";
+        throw "Unexpected server response";
       }
     } catch (error) {
       Get.back();
