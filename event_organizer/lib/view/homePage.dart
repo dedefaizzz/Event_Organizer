@@ -12,6 +12,7 @@ class homePage extends StatefulWidget {
 
 class _HomePageState extends State<homePage> {
   int _selectedIndex = 0;
+  PageController _pageController = PageController();
 
   List<Widget> _widgetOptions = <Widget>[
     HomeFragment(),
@@ -21,6 +22,10 @@ class _HomePageState extends State<homePage> {
   ];
 
   void _onItemTapped(int index) {
+    _pageController.jumpToPage(index);
+  }
+
+  void _onPageChanged(int index) {
     setState(() {
       _selectedIndex = index;
     });
@@ -44,7 +49,11 @@ class _HomePageState extends State<homePage> {
               color: AppColors.splashColor, fontWeight: FontWeight.bold),
         ),
       ),
-      body: _widgetOptions.elementAt(_selectedIndex),
+      body: PageView(
+        controller: _pageController,
+        onPageChanged: _onPageChanged,
+        children: _widgetOptions,
+      ),
       bottomNavigationBar: BottomNavigationBar(
         type: BottomNavigationBarType.shifting,
         items: const <BottomNavigationBarItem>[

@@ -44,7 +44,10 @@ class cardView extends StatelessWidget {
           ),
           AspectRatio(
             aspectRatio: 16 / 9,
-            child: Image.network(imageUrl, fit: BoxFit.cover),
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(12.0),
+              child: Image.network(imageUrl, fit: BoxFit.cover),
+            ),
           ),
           Padding(
             padding: const EdgeInsets.all(8.0),
@@ -66,7 +69,7 @@ class cardView extends StatelessWidget {
                 SizedBox(width: 8),
                 Text(
                   time,
-                  style: TextStyle(fontSize: 14, fontWeight: FontWeight.w200),
+                  style: TextStyle(fontSize: 14, fontWeight: FontWeight.w400),
                 ),
               ],
             ),
@@ -83,7 +86,7 @@ class cardView extends StatelessWidget {
                 SizedBox(width: 8),
                 Text(
                   location,
-                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.w100),
+                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.normal),
                 ),
               ],
             ),
@@ -95,11 +98,11 @@ class cardView extends StatelessWidget {
               children: [
                 Text(
                   price,
-                  style: TextStyle(fontSize: 14, fontWeight: FontWeight.w300),
+                  style: TextStyle(fontSize: 14, fontWeight: FontWeight.w600),
                 ),
                 Text(
                   status,
-                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.w100),
+                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.normal),
                 ),
               ],
             ),

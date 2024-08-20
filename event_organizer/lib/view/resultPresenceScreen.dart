@@ -2,6 +2,7 @@ import 'dart:io';
 import 'package:event_organizer/model/presenceModel.dart';
 import 'package:event_organizer/database/databasePresence.dart';
 import 'package:flutter/material.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 class resultPresenceScreen extends StatefulWidget {
   final int eventId;
@@ -34,6 +35,9 @@ class _ResultPresenceScreenState extends State<resultPresenceScreen> {
               itemCount: presenceList.length,
               itemBuilder: (context, index) {
                 final presence = presenceList[index];
+                final latitude = presence.latitude;
+                final longitude = presence.longitude;
+
                 return Card(
                   margin: EdgeInsets.all(10.0),
                   child: Padding(
@@ -54,7 +58,29 @@ class _ResultPresenceScreenState extends State<resultPresenceScreen> {
                         ),
                         SizedBox(height: 5),
                         Text(
-                          'Location: ${presence.latitude}, ${presence.longitude}',
+                          'Location:',
+                          style: TextStyle(fontWeight: FontWeight.bold),
+                        ),
+                        SizedBox(height: 5),
+                        SizedBox(
+                          height: 200,
+                          child: GoogleMap(
+                            initialCameraPosition: CameraPosition(
+                              target: LatLng(latitude, longitude),
+                              zoom: 17,
+                            ),
+                            markers: {
+                              Marker(
+                                markerId: MarkerId('checkin_location_$index'),
+                                position: LatLng(latitude, longitude),
+                                infoWindow: InfoWindow(
+                                  title: 'Check-In Location',
+                                  snippet:
+                                      '${presence.latitude}, ${presence.longitude}',
+                                ),
+                              ),
+                            },
+                          ),
                         ),
                       ],
                     ),

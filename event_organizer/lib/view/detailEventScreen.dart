@@ -120,8 +120,11 @@ class _DetailEventScreenState extends State<detailEventScreen> {
                 children: [
                   AspectRatio(
                     aspectRatio: 4 / 3,
-                    child: Image.network(widget.detailEvent.imageUrl,
-                        fit: BoxFit.cover),
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.circular(16.0),
+                      child: Image.network(widget.detailEvent.imageUrl,
+                          fit: BoxFit.cover),
+                    ),
                   ),
                   Padding(
                     padding: const EdgeInsets.all(16.0),
