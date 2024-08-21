@@ -30,4 +30,18 @@ class ErrorHandler {
     }
     return null;
   }
+
+  static String? validateRegister(String email, String password) {
+    String? emailError = validateEmail(email);
+    if (emailError != null) {
+      return emailError;
+    }
+
+    String? passwordError = validatePassword(password);
+    if (passwordError != null) {
+      return passwordError;
+    }
+
+    return null;
+  }
 }

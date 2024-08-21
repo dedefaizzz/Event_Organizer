@@ -13,7 +13,6 @@ class registerScreen extends StatefulWidget {
 
 class _RegisterScreenState extends State<registerScreen> {
   final registerControllers _regControllers = Get.put(registerControllers());
-  // final Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
 
   String? _emailError;
   String? _passwordError;
@@ -21,6 +20,13 @@ class _RegisterScreenState extends State<registerScreen> {
   void _signUp() {
     final email = _regControllers.emailController.text;
     final password = _regControllers.passwordController.text;
+
+    String? errorHandler = ErrorHandler.validateRegister(email, password);
+
+    if (errorHandler != null) {
+      _showErrorDialog(errorHandler);
+      return;
+    }
 
     setState(() {
       _emailError = ErrorHandler.validateEmail(email);
@@ -31,23 +37,27 @@ class _RegisterScreenState extends State<registerScreen> {
       _regControllers.registerWithEmail().then((value) {
         _showSuccessDialog('Registration successful! Please login.');
       }).catchError((error) {
-        showDialog(
-          context: context,
-          builder: (context) => AlertDialog(
-            title: Text('Register Failed'),
-            content: Text(error.toString()),
-            actions: [
-              TextButton(
-                onPressed: () {
-                  Navigator.of(context).pop();
-                },
-                child: Text('Ok'),
-              )
-            ],
-          ),
-        );
+        _showErrorDialog(error.toString());
       });
     }
+  }
+
+  void _showErrorDialog(String message) {
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: Text('Register Failed'),
+        content: Text(message),
+        actions: [
+          TextButton(
+            onPressed: () {
+              Navigator.of(context).pop();
+            },
+            child: Text('Ok'),
+          )
+        ],
+      ),
+    );
   }
 
   void _showSuccessDialog(String message) {

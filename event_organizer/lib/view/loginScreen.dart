@@ -41,35 +41,40 @@ class _LoginScreenState extends State<loginScreen> {
         email, password, widget.email, widget.password);
 
     if (errorHandler != null) {
-      setState(() {
-        errorHandler;
-      });
+      // setState(() {
+      //   errorHandler;
+      // });
+      _showErrorDialog(errorHandler);
       return;
     }
 
     _logControllers.loginWithEmail().then((value) {
       _showSuccessDialog('Silahkan Masuk Ke Aplikasi');
     }).catchError((error) {
-      showDialog(
-        context: context,
-        builder: (context) => AlertDialog(
-          title: Text('Login Failed'),
-          content: Text(error.toString()),
-          actions: [
-            TextButton(
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-              child: Text('Ok'),
-            )
-          ],
-        ),
-      );
+      _showErrorDialog(error.toString());
     });
   }
 
   void _signUp() {
     Get.off(() => registerScreen());
+  }
+
+  void _showErrorDialog(String message) {
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: Text('Login Failed'),
+        content: Text(message),
+        actions: [
+          TextButton(
+            onPressed: () {
+              Navigator.of(context).pop();
+            },
+            child: Text('Ok'),
+          )
+        ],
+      ),
+    );
   }
 
   void _showSuccessDialog(String message) {
