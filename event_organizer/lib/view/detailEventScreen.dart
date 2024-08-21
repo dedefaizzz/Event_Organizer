@@ -290,8 +290,8 @@ class _DetailEventScreenState extends State<detailEventScreen> {
                     onPressed: _toggleBookmark,
                     style: ElevatedButton.styleFrom(
                       primary: AppColors.secondColor,
-                      onPrimary: AppColors.splashColor,
-                      shadowColor: Colors.black.withOpacity(0.5),
+                      onPrimary: AppColors.backgroundColor,
+                      shadowColor: AppColors.backgroundColor.withOpacity(0.5),
                       elevation: 5,
                     ),
                   ),

@@ -3,7 +3,9 @@ import 'package:event_organizer/fragment/HomeFragment.dart';
 import 'package:event_organizer/fragment/BookmarkFragment.dart';
 import 'package:event_organizer/fragment/OrderedFragment.dart';
 import 'package:event_organizer/fragment/PresenceFragment.dart';
+import 'package:event_organizer/view/loginScreen.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 class homePage extends StatefulWidget {
   @override
@@ -22,13 +24,24 @@ class _HomePageState extends State<homePage> {
   ];
 
   void _onItemTapped(int index) {
-    _pageController.jumpToPage(index);
+    setState(() {
+      _selectedIndex = index;
+    });
+    _pageController.animateToPage(
+      index,
+      duration: Duration(milliseconds: 350),
+      curve: Curves.easeInExpo,
+    );
   }
 
   void _onPageChanged(int index) {
     setState(() {
       _selectedIndex = index;
     });
+  }
+
+  void _logout() {
+    Get.off(loginScreen(email: '', password: ''));
   }
 
   @override
@@ -48,10 +61,17 @@ class _HomePageState extends State<homePage> {
           style: TextStyle(
               color: AppColors.splashColor, fontWeight: FontWeight.bold),
         ),
+        actions: [
+          IconButton(
+            icon: Icon(Icons.logout, color: AppColors.backgroundColor),
+            onPressed: _logout,
+          ),
+        ],
       ),
       body: PageView(
         controller: _pageController,
         onPageChanged: _onPageChanged,
+        physics: BouncingScrollPhysics(),
         children: _widgetOptions,
       ),
       bottomNavigationBar: BottomNavigationBar(
@@ -75,7 +95,7 @@ class _HomePageState extends State<homePage> {
           ),
         ],
         currentIndex: _selectedIndex,
-        selectedItemColor: AppColors.splashColor,
+        selectedItemColor: AppColors.backgroundColor,
         unselectedItemColor: AppColors.splashColor.withOpacity(0.5),
         onTap: _onItemTapped,
       ),
