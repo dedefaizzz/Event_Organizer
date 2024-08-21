@@ -1,6 +1,7 @@
 import 'package:event_organizer/colors/colors.dart';
 import 'loginScreen.dart';
 import 'package:flutter/material.dart';
+import 'package:lottie/lottie.dart';
 
 class splashScreen extends StatefulWidget {
   @override
@@ -42,7 +43,7 @@ class _SplashScreenState extends State<splashScreen> {
                 borderRadius: BorderRadius.circular(15),
                 boxShadow: [
                   BoxShadow(
-                    color: Colors.black.withOpacity(0.1),
+                    color: Colors.white.withOpacity(0.1),
                     spreadRadius: 2,
                     blurRadius: 5,
                     offset: Offset(2, 4),
@@ -51,10 +52,11 @@ class _SplashScreenState extends State<splashScreen> {
               ),
               child: ClipRRect(
                 borderRadius: BorderRadius.circular(15),
-                child: Image.asset(
-                  'assets/icon_event_organizer.jpg',
-                  width: 100,
-                  height: 100,
+                child: Lottie.asset(
+                  'assets/animation_splash_screen.json',
+                  width: 150,
+                  height: 150,
+                  repeat: true,
                 ),
               ),
             ),
